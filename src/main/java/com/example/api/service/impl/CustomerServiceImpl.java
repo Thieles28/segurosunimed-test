@@ -7,6 +7,8 @@ import com.example.api.repository.CustomerRepository;
 import com.example.api.service.CustomerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,9 +27,16 @@ public class CustomerServiceImpl implements CustomerService {
     this.modelMapper = modelMapper;
   }
 
-	public List<CustomerResponse> findAll() {
-		return repository.findAllByOrderByNameAsc().stream().map(customer ->
-				modelMapper.map(customer, CustomerResponse.class)).collect(Collectors.toList());
+//	public List<CustomerResponse> findAll() {
+//		return repository.findAllByOrderByNameAsc().stream().map(customer ->
+//				modelMapper.map(customer, CustomerResponse.class)).collect(Collectors.toList());
+//	}
+
+	public List<CustomerResponse> findAll(int page, int size) {
+		Page<Customer> customerPage = repository.findAllByOrderByNameAsc(PageRequest.of(page, size));
+		return customerPage.getContent().stream()
+				.map(customer -> modelMapper.map(customer, CustomerResponse.class))
+				.collect(Collectors.toList());
 	}
 
 	public Optional<CustomerResponse> findById(Long id) {

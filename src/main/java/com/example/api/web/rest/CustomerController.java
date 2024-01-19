@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -32,8 +33,10 @@ public class CustomerController {
 	}
 
 	@GetMapping
-	public  ResponseEntity<List<CustomerResponse>> findAll() {
-		return ResponseEntity.ok().body(service.findAll());
+	public ResponseEntity<List<CustomerResponse>> findAll(
+			@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size) {
+		return ResponseEntity.ok().body(service.findAll(page, size));
 	}
 
 	@GetMapping("/{id}")
