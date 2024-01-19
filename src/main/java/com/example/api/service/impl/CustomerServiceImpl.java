@@ -57,4 +57,12 @@ public class CustomerServiceImpl implements CustomerService {
 	public void removeCustomer(CustomerResponse customerResponse) {
 		repository.delete(modelMapper.map(customerResponse, Customer.class));
 	}
+
+	@Override
+	public List<CustomerResponse> searchCustomers(CustomerRequest customerRequest) {
+		return repository
+				.findBy(customerRequest).stream()
+				.map(customer -> modelMapper.map(customer, CustomerResponse.class))
+				.collect(Collectors.toList());
+	}
 }
