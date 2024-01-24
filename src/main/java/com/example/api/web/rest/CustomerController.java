@@ -60,7 +60,7 @@ public class CustomerController {
 	}
 
 	@DeleteMapping("{id}")
-	public ResponseEntity<Void> removerLivro(@PathVariable Long id) {
+	public ResponseEntity<Void> removerCustomer(@PathVariable Long id) {
 		Optional<CustomerResponse> customerResponseOptional = service.findById(id);
 
 		if (customerResponseOptional.isPresent()) {

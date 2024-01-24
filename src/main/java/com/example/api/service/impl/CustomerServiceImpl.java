@@ -124,7 +124,8 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public void removeCustomer(CustomerResponse customerResponse) {
-		repository.delete(modelMapper.map(customerResponse, Customer.class));
+		repository.deleteById(customerResponse.getId());
+//		repository.delete(modelMapper.map(customerResponse, Customer.class));
 	}
 
 	@Override
