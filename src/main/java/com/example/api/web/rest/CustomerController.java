@@ -1,5 +1,7 @@
 package com.example.api.web.rest;
 
+import com.example.api.model.request.AddressRequest;
+import com.example.api.model.request.CustomerFilterRequest;
 import com.example.api.model.request.CustomerRequest;
 import com.example.api.model.response.CustomerResponse;
 import com.example.api.service.impl.CustomerServiceImpl;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,12 +50,12 @@ public class CustomerController {
 	}
 
 	@PostMapping
-	public ResponseEntity<CustomerResponse> registerCustomer(@RequestBody CustomerRequest customerRequest){
+	public ResponseEntity<CustomerResponse> registerCustomer(@Valid @RequestBody CustomerRequest customerRequest){
 		return  ResponseEntity.status(HttpStatus.CREATED).body(service.registerCustomer(customerRequest));
 	}
 
 	@PutMapping("{id}")
-	public ResponseEntity<Optional<CustomerResponse>> updateCustomer(@RequestBody CustomerRequest customerRequest, @PathVariable("id") Long id) {
+	public ResponseEntity<Optional<CustomerResponse>> updateCustomer(@Valid @RequestBody CustomerRequest customerRequest, @PathVariable("id") Long id) {
 		return  ResponseEntity.status(HttpStatus.CREATED).body(service.updateCustomer(customerRequest, id));
 	}
 
@@ -70,7 +73,13 @@ public class CustomerController {
 
 	@GetMapping("search")
 	public List<CustomerResponse> searchCustomers(
-			@ModelAttribute CustomerRequest customerRequest) {
-		return service.searchCustomers(customerRequest);
+			@ModelAttribute CustomerFilterRequest filterRequest) {
+		return service.searchCustomers(filterRequest);
 	}
+
+//	@GetMapping("/{cep}/address")
+//	public ResponseEntity<AddressRequest> findById(@PathVariable String cep) {
+//		AddressRequest addressRequest = service.getAddressByCEP(cep);
+//		return ResponseEntity.ok().body(addressRequest);
+//	}
 }

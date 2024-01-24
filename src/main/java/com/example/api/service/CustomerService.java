@@ -1,5 +1,6 @@
 package com.example.api.service;
 
+import com.example.api.model.request.CustomerFilterRequest;
 import com.example.api.model.request.CustomerRequest;
 import com.example.api.model.response.CustomerResponse;
 
@@ -12,5 +13,5 @@ public interface CustomerService {
   CustomerResponse registerCustomer(CustomerRequest customerRequest);
   Optional<CustomerResponse> updateCustomer(CustomerRequest customerRequest, Long id);
   void removeCustomer(CustomerResponse customerResponse);
-  List<CustomerResponse> searchCustomers(CustomerRequest customerRequest);
+  List<CustomerResponse> searchCustomers(CustomerFilterRequest customerFilterRequest);
 }
