@@ -1,13 +1,15 @@
 package com.example.api.web.rest;
 
-import com.example.api.model.request.AddressRequest;
 import com.example.api.model.request.CustomerFilterRequest;
 import com.example.api.model.request.CustomerRequest;
+import com.example.api.model.response.AddressResponse;
 import com.example.api.model.response.CustomerResponse;
 import com.example.api.service.impl.CustomerServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,7 +27,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/customers")
+@Tag(name = "Customer")
+@RequestMapping("customers")
 public class CustomerController {
 
 	private CustomerServiceImpl service;
@@ -42,7 +45,7 @@ public class CustomerController {
 		return ResponseEntity.ok().body(service.findAll(page, size));
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("{id}")
 	public ResponseEntity<CustomerResponse> findById(@PathVariable Long id) {
 		return service.findById(id)
 				.map(customerResponse -> ResponseEntity.ok().body(customerResponse))
@@ -77,9 +80,9 @@ public class CustomerController {
 		return service.searchCustomers(filterRequest);
 	}
 
-//	@GetMapping("/{cep}/address")
-//	public ResponseEntity<AddressRequest> findById(@PathVariable String cep) {
-//		AddressRequest addressRequest = service.getAddressByCEP(cep);
-//		return ResponseEntity.ok().body(addressRequest);
-//	}
+	@GetMapping("address/{cep}")
+	public ResponseEntity<AddressResponse> findById(@PathVariable String cep) {
+		AddressResponse addressByCEP = service.getAddressByCEP(cep);
+		return ResponseEntity.ok().body(addressByCEP);
+	}
 }
