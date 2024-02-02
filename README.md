@@ -22,3 +22,5 @@
 
 Obs.: Será um diferencial implementações como: tratamento de exceções (RestControllerAdvice), testes, validações, uso de mecanismos modernos da linguagem, frontend, autenticação e documentação. 
 
+Usuário Admin: thieles@gmail.com
+Senha: 12345678
