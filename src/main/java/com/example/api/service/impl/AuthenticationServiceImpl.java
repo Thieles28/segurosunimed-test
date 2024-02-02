@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +42,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public JwtAuthenticationResponse signup(SignUpRequest request) {
         var user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName())
                 .email(request.getEmail()).password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.ADMIN).build();
+                .role(Role.USER).build();
         userRepository.save(user);
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
@@ -111,5 +112,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public void removeUser(UsersResponse usersResponse) {
         User user = modelMapper.map(usersResponse, User.class);
         userRepository.delete(user);
+    }
+
+    @PostConstruct
+    public void initializeUserData() {
+        User user = User.builder()
+            .firstName("Thieles")
+            .lastName("Martins")
+            .email("thieles@gmail.com")
+            .password(passwordEncoder.encode("12345678"))
+            .role(Role.ADMIN)
+            .build();
+        userRepository.save(user);
     }
 }
